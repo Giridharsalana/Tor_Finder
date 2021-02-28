@@ -1,0 +1,88 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="Giridhar Salana">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+    <link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">  
+    <link href="/static/style.css" rel="stylesheet" />
+  </head>
+  <title>Torrent Looker | Giridhar Salana</title>
+  <div class="wrapper">
+  <body>
+  <header>
+      <span><a href = "https://torrentlooker.herokuapp.com">Torrent Looker</a></span>
+  </header>
+    <main>
+      <div id="cover">
+      <form method="POST" ,autocomplete="off", action="https://torrentlooker.herokuapp.com">
+        <div class="tb">
+          <div class="td"><input type="text" placeholder="Search" name="Query"></div>
+          <div class="td" id="s-cover">
+            <button type="submit">
+              <div id="s-circle"></div>
+              <span></span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="querytab">
+      {% if No_Connect == True %} 
+      <h2>Sever Down! Please Try Later.</h2>
+      {% else %}
+      {% if empty_flag == False %}
+      <h2>Search results</h2>    
+      {% if Torr_list == [] %}
+      <h3>Found None For This Keyword</h3>
+      {% else %}
+        <table border="1px" class="steelBlueCols">
+          <thead>
+          <tr>
+          <th>Sln.</th>
+          <th>Torrent Name</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+          {% for Torrent in Torr_list %}
+              <tr>
+                <td> {{ loop.index }} </td>
+                <td><strong>{{ Torrent['name'] }}</strong>  
+                  <center><table>
+                    <tr>
+                  <td>Size : {{ Torrent['size'] }}</td> 
+                  <td>Age : {{ Torrent['age'] }}</td>
+                  </tr>
+                  <tr>
+                  <td>Seeds & Leeches : {{ Torrent['seeder'], Torrent['leecher'] }}</td>
+                  <td>Source : {{ Torrent['site'] }}</td>
+                  </tr>
+                </table>
+                <center><table>
+                   <td><button class="mag_btn" title="Magnet link to clipboard" onclick='copyText("{{ Torrent['magnet'] }}")'>Magnet</button></td>   
+                   <td><button class="mag_btn1" title="Magnet link to App" onclick="window.location.href='{{ Torrent['magnet'] }}';">Dir_link</button></td></center>   
+                    </table></center>
+                  </td>
+             </tr>
+          {% endfor %}
+        </tbody>
+       </table>
+       <br><br>
+       {% endif %}
+       {% endif %}
+       {% if empty_flag == True %}
+       <h2>Search Keyword Missing</h2>
+       {% endif %}
+       {% endif %}
+    </div> 
+  </main>
+<script src="/static/main.js"></script>
+<footer>
+  Made with <i class="fa fa-heart" style="font-size:32px;color:red"></i> by <a href="https://giridharsalana.netlify.app">Giridhar Salana</a>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.10/clipboard.min.js"></script>
+<script>
+
+  {% for Torrent in Torr_list %}  
+var clipboardDemos_{{ loop.index }} = new Clipboard('[data-clipboard_{{ loop.index }}]');
+
+clipboardDemos_{{ loop.index }}.on('success', function(e) {
+    e.clearSelection();
+    showTooltip(e.trigger, 'Copied!');
+});
+
+clipboardDemos_{{ loop.index }}.on('error', function(e) {
+    showTooltip(e.trigger, fallbackMessage(e.action));
+});
+
+// tooltips.js
+
+var btns_{{ loop.index }} = document.querySelectorAll('#btn_{{ loop.index }}');
+
+for (var i = 0; i < btns_{{ loop.index }}.length; i++) {
+    btns_{{ loop.index }}[i].addEventListener('mouseleave', clearTooltip);
+    btns_{{ loop.index }}[i].addEventListener('blur', clearTooltip);
+}
+
+function clearTooltip(e) {
+    e.currentTarget.setAttribute('class', 'btn_tip{{ loop.index }}');
+    e.currentTarget.removeAttribute('aria-label');
+}
+
+function showTooltip(elem, msg) {
+    elem.setAttribute('class', 'btn_tip{{ loop.index }}');
+    elem.setAttribute('aria-label', msg);
+}
+  {% endfor %}
+</script>
